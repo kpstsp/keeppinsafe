@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ month_name }} {{ year }}</h1>
+
+<table border="1">
+    <tr>
+        {% for day_name in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+            <th>{{ day_name }}</th>
+        {% endfor %}
+    </tr>
+    {% for week in month_cal %}
+        <tr>
+            {% for date in week %}
+                {% if date %}
+                    {% with info=date_info|dict_key:date %}
+                        <td>
+                            <div>{{ date.day }}</div>
+                            {% if info.has_db %}
+                                <span class="db">d</span>
+                            {% endif %}
+                            {% if info.has_www %}
+                                <span class="www">w</span>
+                            {% endif %}
+                        </td>
+                    {% endwith %}
+                {% else %}
+                    <td></td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+<style>
+    .db { color: blue; }
+    .www { color: green; }
+</style>
+
+<!-- JavaScript to reload the page every 5 minutes -->
+<script>
+    setTimeout(function(){
+        window.location.reload(1);
+    }, 300000);  // 300,000 milliseconds = 5 minutes
+</script>
+{% endblock %}
