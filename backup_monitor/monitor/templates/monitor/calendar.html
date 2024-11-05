@@ -1,40 +1,75 @@
+<!-- templates/monitor/calendar.html -->
 {% extends 'base.html' %}
+{% load dict_extras %}
 
 {% block content %}
-<h1>{{ month_name }} {{ year }}</h1>
+<h1>
+    <a href="{% url 'calendar' prev_year prev_month %}">&laquo; Prev</a>
+    {{ month_name }} {{ year }}
+    <a href="{% url 'calendar' next_year next_month %}">Next &raquo;</a>
+</h1>
 
 <table border="1">
     <tr>
-        {% for day_name in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+        {% for day_name in day_names %}
             <th>{{ day_name }}</th>
         {% endfor %}
     </tr>
     {% for week in month_cal %}
         <tr>
             {% for date in week %}
-                {% if date %}
-                    {% with info=date_info|dict_key:date %}
-                        <td>
-                            <div>{{ date.day }}</div>
-                            {% if info.has_db %}
-                                <span class="db">d</span>
-                            {% endif %}
-                            {% if info.has_www %}
-                                <span class="www">w</span>
-                            {% endif %}
-                        </td>
+                <td{% if date == today %} class="today"{% elif date.month != month %} class="other-month"{% endif %}>
+                    <div>{{ date.day }}</div>
+                    {% with date_str=date|date:"Y-m-d" %}
+                        {% if date_str in date_info %}
+                            {% with info=date_info|get_item:date_str %}
+                                {% if info.has_db %}
+                                    <span class="db">d</span>
+                                {% endif %}
+                                {% if info.has_www %}
+                                    <span class="www">w</span>
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
                     {% endwith %}
-                {% else %}
-                    <td></td>
-                {% endif %}
+                </td>
             {% endfor %}
         </tr>
     {% endfor %}
 </table>
 
 <style>
-    .db { color: blue; }
-    .www { color: green; }
+    .db {
+        color: blue;
+    }
+    .www {
+        color: green;
+    }
+    .other-month {
+        background-color: #f0f0f0;
+        color: #999;
+    }
+    .today {
+        background-color: #ffeb3b;
+    }
+    td {
+        width: 100px;
+        height: 80px;
+        vertical-align: top;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th {
+        background-color: #2196F3;
+        color: white;
+        padding: 5px;
+    }
+    td {
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
 </style>
 
 <!-- JavaScript to reload the page every 5 minutes -->

@@ -21,5 +21,6 @@ from monitor import views as monitor_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),  # For authentication
+    path('<int:year>/<int:month>/', monitor_views.calendar_view, name='calendar'),
     path('', monitor_views.calendar_view, name='calendar'),
 ]
