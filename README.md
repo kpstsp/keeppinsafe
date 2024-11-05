@@ -236,7 +236,3 @@ This project is licensed under the [MIT License](LICENSE). You are free to use, 
 For questions or support, please open an issue on the repository or contact the maintainer (check my GitHub or Linkedin: https://www.linkedin.com/in/konstantin-parashchevin/).
 
 ---
-
-**Note**: Replace placeholders like `yourusername`, `/absolute/path/to/db_backups`, and `your.email@example.com` with your actual information.
-
----
