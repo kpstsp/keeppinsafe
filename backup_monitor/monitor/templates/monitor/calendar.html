@@ -29,7 +29,14 @@
                                 {% if info.has_www %}
                                     <span class="www">w</span>
                                 {% endif %}
+                                {% if not info.has_db %}
+                                    {% if not info.has_www %}
+
+                                    <span class="alert"> NO BACKUP </span>
+                                {% endif %}
+                                {% endif %}
                             {% endwith %}
+                        
                         {% endif %}
                     {% endwith %}
                 </td>
@@ -44,6 +51,10 @@
     }
     .www {
         color: green;
+    }
+    .alert {
+        color: red;
+        background-color: yellow;
     }
     .other-month {
         background-color: #f0f0f0;
